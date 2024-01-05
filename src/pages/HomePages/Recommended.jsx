@@ -59,12 +59,12 @@ const Recommended = () => {
               .map((item) => (
                 <div key={item.Id} className="flex items-center p-2">
                   <img
-                    src={item.isImageUrl}
+                    src={item.ImageUrl}
                     alt={item.Name}
                     style={{ height: "50px", width: "50px" }}
                     className="rounded-[25px]"
                   />
-                  <p className="card-title text-[14px] text-center ml-2">
+                  <p className=" btn card-title text-[14px] text-center ml-2">
                     {item.Name}
                   </p>
                 </div>
@@ -72,7 +72,8 @@ const Recommended = () => {
             
               <div className="modal-action">
                 <form method="dialog">
-                  <button className="btn" onClick={() => document.getElementById("my_modal_2").close()}>Close</button>
+                <button className="btn" >Add</button>
+                  <button className="btn " onClick={() => document.getElementById("my_modal_2").close()}>Close</button>
                 </form>
               </div>
             </div>

@@ -70,7 +70,8 @@ const PopularItem = () => {
             
               <div className="modal-action">
                 <form method="dialog">
-                  <button className="btn" onClick={() => document.getElementById("my_modal_1").close()}>Close</button>
+                <button className="btn" >Add</button>
+                  <button className="btn mx-2" onClick={() => document.getElementById("my_modal_1").close()}>Close</button>
                 </form>
               </div>
             </div>
