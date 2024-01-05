@@ -46,10 +46,37 @@ const Recommended = () => {
       <div className="flex justify-between">
         <h3 className="text-2xl font- text-start py-3">Recommended</h3>
         <p className="text-start py-3">
-          <span className="btn text-orange-500" onClick={handleAddMore} >
-            Add More
+          <button
+            className="btn text-orange-500"
+            onClick={() => document.getElementById("my_modal_2").showModal()}
+          >
+            AddMore
+          </button>
+          <dialog id="my_modal_2" className="modal">
+            <div className="modal-box">
+              {items
+               .filter((item) => item.IsRecommended === true)
+              .map((item) => (
+                <div key={item.Id} className="flex items-center p-2">
+                  <img
+                    src={item.isImageUrl}
+                    alt={item.Name}
+                    style={{ height: "50px", width: "50px" }}
+                    className="rounded-[25px]"
+                  />
+                  <p className="card-title text-[14px] text-center ml-2">
+                    {item.Name}
+                  </p>
+                </div>
+              ))}
             
-          </span>
+              <div className="modal-action">
+                <form method="dialog">
+                  <button className="btn" onClick={() => document.getElementById("my_modal_2").close()}>Close</button>
+                </form>
+              </div>
+            </div>
+          </dialog>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -105,8 +132,7 @@ const Recommended = () => {
                 </p>
               </div>
             </SwiperSlide>
-          
-        ))}
+          ))}
       </Swiper>
     </div>
   );

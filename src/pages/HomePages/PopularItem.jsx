@@ -46,9 +46,35 @@ const PopularItem = () => {
       <div className="flex justify-between">
         <h3 className="text-2xl font- text-start py-3">Popular</h3>
         <p className="text-start py-3">
-          <span className="btn text-orange-500" onClick={handleAddMore}>
+          <button
+            className="btn text-orange-500"
+            onClick={() => document.getElementById("my_modal_1").showModal()}
+          >
             Add More
-          </span>
+          </button>
+          <dialog id="my_modal_1" className="modal">
+            <div className="modal-box">
+              {items.map((item) => (
+                <div key={item.Id} className="flex items-center p-2">
+                  <img
+                    src={item.ImageUrl}
+                    alt={item.Name}
+                    style={{ height: "50px", width: "50px" }}
+                    className="rounded-[25px]"
+                  />
+                  <p className="card-title text-[14px] text-center ml-2">
+                    {item.Name}
+                  </p>
+                </div>
+              ))}
+            
+              <div className="modal-action">
+                <form method="dialog">
+                  <button className="btn" onClick={() => document.getElementById("my_modal_1").close()}>Close</button>
+                </form>
+              </div>
+            </div>
+          </dialog>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
