@@ -30,7 +30,7 @@ const navOption = (
 const NavBar = () => {
   return (
     <div>
-      <div className="navbar fixed z-10 bg-opacity-30 text-black max-w-full max-auto px-4 md:px-8 lg:px-24">
+      <div className="navbar fixed z-10 bg-opacity-30 bg-white text-black max-w-full max-auto px-4 md:px-8 lg:px-24">
         <div className="max-w-screen-lg mx-auto navbar-start">
           <div className="dropdown lg:hidden"></div>
           <a className="btn btn-ghost text-xl md:text-2xl lg:text-3xl">pti.</a>

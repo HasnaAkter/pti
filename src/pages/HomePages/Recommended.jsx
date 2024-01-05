@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-const PopularItem = () => {
+const Recommended = () => {
   const [swiperRef, setSwiperRef] = useState(null);
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,10 +44,11 @@ const PopularItem = () => {
   return (
     <div className="p-10 px-24 max-w-screen-xl mx-auto">
       <div className="flex justify-between">
-        <h3 className="text-2xl font- text-start py-3">Popular</h3>
+        <h3 className="text-2xl font- text-start py-3">Recommended</h3>
         <p className="text-start py-3">
-          <span className="btn text-orange-500" onClick={handleAddMore}>
+          <span className="btn text-orange-500" onClick={handleAddMore} >
             Add More
+            
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -88,24 +89,27 @@ const PopularItem = () => {
         modules={[Navigation]}
         className="mySwiper"
       >
-        {items.map((item) => (
-          <SwiperSlide key={item.Id}>
-            <div className="flex flex-col items-center">
-              <img
-                src={item.ImageUrl}
-                alt={item.Name}
-                style={{ height: "250px", width: "500px" }}
-                className="rounded-[25px]"
-              />
-              <p className="card-title text-[14px] text-center mt-2">
-                {item.Name}
-              </p>
-            </div>
-          </SwiperSlide>
+        {items
+          .filter((item) => item.IsRecommended === true)
+          .map((item) => (
+            <SwiperSlide key={item.Id}>
+              <div className="flex flex-col items-center">
+                <img
+                  src={item.ImageUrl}
+                  alt={item.Name}
+                  style={{ height: "250px", width: "500px" }}
+                  className="rounded-[25px]"
+                />
+                <p className="card-title text-[14px] text-center mt-2">
+                  {item.Name}
+                </p>
+              </div>
+            </SwiperSlide>
+          
         ))}
       </Swiper>
     </div>
   );
 };
 
-export default PopularItem;
+export default Recommended;
