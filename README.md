@@ -1,8 +1,9 @@
-# React + Vite
+Project setup:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Step 1: Download the git repo.
+Step 2: Ensure Node is installed on the machine (Node [v18.18.2] required).
+Step 3: Open the project in Visual Studio Code.
+Step 4: Open the terminal and type: npm install or npm i.
+Step 5: After the installation type npm run dev it will open the website in locally and navigate to you the browser
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Component Use: React, ReactDom, DaisyUI,Tailwind, API: In netlify the provided API link doesn't work might be it's an deployment issue but in local it's work perfectly.
