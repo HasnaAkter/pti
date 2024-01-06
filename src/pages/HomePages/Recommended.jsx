@@ -60,7 +60,7 @@ const Recommended = () => {
                   <div
                     key={item.Id}
                     className={`flex items-center p-2 ${
-                      selectedItems.includes(item.Id) ? "text-orange-500" : ""
+                      selectedItems.includes(item.Id) ? "text-orange-500" : "text-black"
                     }`}
                     onClick={() => toggleSelectedItem(item.Id)}
                   >
