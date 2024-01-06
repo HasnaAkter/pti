@@ -1,21 +1,19 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 const Recommended = () => {
   const [swiperRef, setSwiperRef] = useState(null);
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const handleAddMore = async () => {
     try {
       const response = await fetch(
-        `http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=${
-          currentPage + 1
-        }&pageSize=10`
+        `http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=${currentPage + 1}&pageSize=10`
       );
       const newItems = await response.json();
       setItems([...items, ...newItems.Items]);
@@ -41,6 +39,22 @@ const Recommended = () => {
     fetchInitialItems();
   }, []);
 
+  const toggleSelectedItem = (itemId) => {
+    setSelectedItems((prevSelectedItems) => {
+      if (prevSelectedItems.includes(itemId)) {
+        return prevSelectedItems.filter((id) => id !== itemId);
+      } else {
+        return [...prevSelectedItems, itemId];
+      }
+    });
+  };
+
+  const handleAddItems = () => {
+    // selected items
+    console.log("Selected Items:", selectedItems.map((itemId) => items.find((item) => item.Id === itemId)));
+    document.getElementById("my_modal_2").close();
+  };
+
   return (
     <div className="p-10 px-24 max-w-screen-xl mx-auto">
       <div className="flex justify-between">
@@ -50,30 +64,43 @@ const Recommended = () => {
             className="btn text-orange-500"
             onClick={() => document.getElementById("my_modal_2").showModal()}
           >
-            AddMore
+            Add More
           </button>
           <dialog id="my_modal_2" className="modal">
             <div className="modal-box">
               {items
-               .filter((item) => item.IsRecommended === true)
-              .map((item) => (
-                <div key={item.Id} className="flex items-center p-2">
-                  <img
-                    src={item.ImageUrl}
-                    alt={item.Name}
-                    style={{ height: "50px", width: "50px" }}
-                    className="rounded-[25px]"
-                  />
-                  <p className=" btn card-title text-[14px] text-center ml-2">
-                    {item.Name}
-                  </p>
-                </div>
-              ))}
-            
+                .filter((item) => item.IsRecommended === true)
+                .map((item) => (
+                  <div
+                    key={item.Id}
+                    className={`flex items-center p-2 ${
+                      selectedItems.includes(item.Id) ? "text-orange-500" : ""
+                    }`}
+                    onClick={() => toggleSelectedItem(item.Id)}
+                  >
+                    <img
+                      src={item.ImageUrl}
+                      alt={item.Name}
+                      style={{ height: "50px", width: "50px" }}
+                      className="rounded-[25px]"
+                    />
+                    <p className=" card-title text-[14px] text-center ml-2">
+                      {item.Name}
+                    </p>
+                  </div>
+                ))}
+
               <div className="modal-action">
                 <form method="dialog">
-                <button className="btn" >Add</button>
-                  <button className="btn " onClick={() => document.getElementById("my_modal_2").close()}>Close</button>
+                  <button className="btn" onClick={handleAddItems}>
+                    Add
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => document.getElementById("my_modal_2").close()}
+                  >
+                    Close
+                  </button>
                 </form>
               </div>
             </div>
@@ -110,10 +137,9 @@ const Recommended = () => {
             slidesPerView: 5,
           },
         }}
-        pagination={{
+        navigation={{
           type: "fraction",
         }}
-        navigation={true}
         modules={[Navigation]}
         className="mySwiper"
       >

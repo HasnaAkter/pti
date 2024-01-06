@@ -73,7 +73,7 @@ const PopularItem = () => {
                 <div
                   key={item.Id}
                   className={`flex items-center p-2 ${
-                    selectedItems.includes(index) ? "bg-orange-300" : ""
+                    selectedItems.includes(index) ? "text-orange-500" : ""
                   }`}
                   onClick={() => toggleSelectedItem(index)}
                 >
