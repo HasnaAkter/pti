@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -9,51 +9,48 @@ const PopularItem = () => {
   const [swiperRef, setSwiperRef] = useState(null);
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
-
-  const toggleSelectedItem = (index) => {
-    const updatedSelectedItems = [...selectedItems];
-
-    if (updatedSelectedItems.includes(index)) {
-      updatedSelectedItems.splice(updatedSelectedItems.indexOf(index), 1);
-    } else {
-      updatedSelectedItems.push(index);
-    }
-
-    setSelectedItems(updatedSelectedItems);
-  };
+  const [selectedItemsForSwiper, setSelectedItemsForSwiper] = useState([]);
 
   const handleAddMore = async () => {
-    try {
-      const response = await fetch(
-        `http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=${
-          currentPage + 1
-        }&pageSize=10`
-      );
-      const newItems = await response.json();
-      setItems([...items, ...newItems.Items]);
-      setCurrentPage(currentPage + 1);
-    } catch (error) {
-      console.error("Error fetching more items:", error);
-    }
+    const response = await fetch(
+      `http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=${currentPage + 1}&pageSize=10`
+    );
+    const newItems = await response.json();
+    setItems([...items, ...newItems.Items]);
+    setCurrentPage(currentPage + 1);
   };
 
   useEffect(() => {
     const fetchInitialItems = async () => {
-      try {
-        const response = await fetch(
-          "http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=1&pageSize=10"
-        );
-        const initialItems = await response.json();
-        setItems(initialItems.Items);
-      } catch (error) {
-        console.error("Error fetching initial items:", error);
-      }
+      const response = await fetch(
+        "http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=1&pageSize=10"
+      );
+      const initialItems = await response.json();
+      setItems(initialItems.Items);
     };
 
     fetchInitialItems();
   }, []);
+
+  const toggleSelectedItem = (itemId) => {
+    setSelectedItems((prevSelectedItems) => {
+      if (prevSelectedItems.includes(itemId)) {
+        return prevSelectedItems.filter((id) => id !== itemId);
+      } else {
+        return [...prevSelectedItems, itemId];
+      }
+    });
+  };
+
+  const handleAddItems = () => {
+    const selectedItemsData = selectedItems.map(
+      (itemId) => items.find((item) => item.Id === itemId)
+    );
+
+    setSelectedItemsForSwiper(selectedItemsData);
+    document.getElementById("my_modal_1").close();
+  };
 
   return (
     <div className="p-10 px-24 max-w-screen-xl mx-auto">
@@ -91,23 +88,19 @@ const PopularItem = () => {
 
               <div className="modal-action">
                 <form method="dialog">
+                  {selectedItems.length > 0 && (
+                    <button
+                      className="btn bg-orange-500 text-white"
+                      onClick={handleAddItems}
+                    >
+                      Add
+                    </button>
+                  )}
                   <button
-                    className="btn"
-                    onClick={() => {
-                      const selectedItemsData = selectedItems.map(
-                        (selectedIndex) => items[selectedIndex]
-                      );
-                      console.log("Selected Items:", selectedItemsData);
-                    }}
-                  >
-                    Add
-                  </button>
-                  <button
-                    className="btn mx-2"
-                    onClick={() => {
-                      setSelectedItems([]);
-                      document.getElementById("my_modal_1").close();
-                    }}
+                    className="btn bg-orange-500 text-white  mx-2"
+                    onClick={() =>
+                      document.getElementById("my_modal_1").close()
+                    }
                   >
                     Close
                   </button>
@@ -169,6 +162,26 @@ const PopularItem = () => {
             </div>
           </SwiperSlide>
         ))}
+
+       {selectedItemsForSwiper.map((selectedItem) => (
+  <SwiperSlide key={selectedItem.Id}>
+    <div className="flex flex-col items-center">
+      {selectedItem && selectedItem.ImageUrl && (
+        <img
+          src={selectedItem.ImageUrl}
+          alt={selectedItem.Name}
+          style={{ height: "250px", width: "500px" }}
+          className="rounded-[25px]"
+        />
+      )}
+      {selectedItem && selectedItem.Name && (
+        <p className="card-title text-[14px] text-center mt-2">
+          {selectedItem.Name}
+        </p>
+      )}
+    </div>
+  </SwiperSlide>
+))}
       </Swiper>
     </div>
   );
