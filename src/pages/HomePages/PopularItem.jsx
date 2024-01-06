@@ -39,7 +39,14 @@ const PopularItem = () => {
 
     setSelectedItemsForSwiper(selectedItemsData);
     document.getElementById("my_modal_1").close();
+    resetSelectedItems();
   };
+  const resetSelectedItems = () => {
+    setSelectedItems([]);
+  };
+  const handleCloseItems = () => {
+    document.getElementById("my_modal_1").close();
+    resetSelectedItems();};
 
   return (
     <div className="p-10 px-24 max-w-screen-xl mx-auto">
@@ -86,9 +93,7 @@ const PopularItem = () => {
                   )}
                   <button
                     className="btn bg-orange-500 text-white  mx-2"
-                    onClick={() =>
-                      document.getElementById("my_modal_1").close()
-                    }
+                    onClick={handleCloseItems}
                   >
                     Close
                   </button>

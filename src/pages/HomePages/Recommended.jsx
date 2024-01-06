@@ -39,6 +39,14 @@ const Recommended = () => {
 
     setSelectedItemsForSwiper(selectedItemsData);
     document.getElementById("my_modal_2").close();
+    resetSelectedItems();
+  };
+  const resetSelectedItems = () => {
+    setSelectedItems([]);
+  };
+  const handleCloseItems = () => {
+    document.getElementById("my_modal_1").close();
+    resetSelectedItems();
   };
 
   return (
@@ -60,7 +68,9 @@ const Recommended = () => {
                   <div
                     key={item.Id}
                     className={`flex items-center p-2 ${
-                      selectedItems.includes(item.Id) ? "text-orange-500" : "text-black"
+                      selectedItems.includes(item.Id)
+                        ? "text-orange-500"
+                        : "text-black"
                     }`}
                     onClick={() => toggleSelectedItem(item.Id)}
                   >
@@ -88,9 +98,7 @@ const Recommended = () => {
                   )}
                   <button
                     className="btn bg-orange-500 text-white  mx-2"
-                    onClick={() =>
-                      document.getElementById("my_modal_2").close()
-                    }
+                    onClick={handleCloseItems}
                   >
                     Close
                   </button>
