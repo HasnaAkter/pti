@@ -54,7 +54,7 @@ const PopularItem = () => {
   return (
     <div className="p-10 px-24 max-w-screen-xl mx-auto">
       <div className="flex justify-between">
-        <h3 className="text-2xl font- text-start py-3">Recommended</h3>
+        <h3 className="text-2xl font- text-start py-3">Popular</h3>
         <p className="text-start py-3">
           <button
             className="btn text-orange-500"
