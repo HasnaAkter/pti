@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -9,6 +9,20 @@ const PopularItem = () => {
   const [swiperRef, setSwiperRef] = useState(null);
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const toggleSelectedItem = (index) => {
+    const updatedSelectedItems = [...selectedItems];
+
+    if (updatedSelectedItems.includes(index)) {
+      updatedSelectedItems.splice(updatedSelectedItems.indexOf(index), 1);
+    } else {
+      updatedSelectedItems.push(index);
+    }
+
+    setSelectedItems(updatedSelectedItems);
+  };
 
   const handleAddMore = async () => {
     try {
@@ -52,10 +66,17 @@ const PopularItem = () => {
           >
             Add More
           </button>
-          <dialog id="my_modal_1" className="modal">
-            <div className="modal-box">
-              {items.map((item) => (
-                <div key={item.Id} className="flex items-center p-2">
+
+          <dialog id="my_modal_1" className="modal ">
+            <div className="modal-box ">
+              {items.map((item, index) => (
+                <div
+                  key={item.Id}
+                  className={`flex items-center p-2 ${
+                    selectedItems.includes(index) ? "bg-orange-300" : ""
+                  }`}
+                  onClick={() => toggleSelectedItem(index)}
+                >
                   <img
                     src={item.ImageUrl}
                     alt={item.Name}
@@ -67,15 +88,34 @@ const PopularItem = () => {
                   </p>
                 </div>
               ))}
-            
+
               <div className="modal-action">
                 <form method="dialog">
-                <button className="btn" >Add</button>
-                  <button className="btn mx-2" onClick={() => document.getElementById("my_modal_1").close()}>Close</button>
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      const selectedItemsData = selectedItems.map(
+                        (selectedIndex) => items[selectedIndex]
+                      );
+                      console.log("Selected Items:", selectedItemsData);
+                    }}
+                  >
+                    Add
+                  </button>
+                  <button
+                    className="btn mx-2"
+                    onClick={() => {
+                      setSelectedItems([]);
+                      document.getElementById("my_modal_1").close();
+                    }}
+                  >
+                    Close
+                  </button>
                 </form>
               </div>
             </div>
           </dialog>
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -108,10 +148,9 @@ const PopularItem = () => {
             slidesPerView: 5,
           },
         }}
-        pagination={{
+        navigation={{
           type: "fraction",
         }}
-        navigation={true}
         modules={[Navigation]}
         className="mySwiper"
       >
