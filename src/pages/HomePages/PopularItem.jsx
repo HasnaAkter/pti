@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
 const PopularItem = () => {
-  const [swiperRef, setSwiperRef] = useState(null);
+  const [setSwiperRef] = useState(null);
   const [items, setItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedItemsForSwiper, setSelectedItemsForSwiper] = useState([]);
-
-  const handleAddMore = async () => {
-    const response = await fetch(
-      `http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=${currentPage + 1}&pageSize=10`
-    );
-    const newItems = await response.json();
-    setItems([...items, ...newItems.Items]);
-    setCurrentPage(currentPage + 1);
-  };
 
   useEffect(() => {
     const fetchInitialItems = async () => {
@@ -43,8 +33,8 @@ const PopularItem = () => {
   };
 
   const handleAddItems = () => {
-    const selectedItemsData = selectedItems.map(
-      (itemId) => items.find((item) => item.Id === itemId)
+    const selectedItemsData = selectedItems.map((itemId) =>
+      items.find((item) => item.Id === itemId)
     );
 
     setSelectedItemsForSwiper(selectedItemsData);
@@ -65,24 +55,24 @@ const PopularItem = () => {
           <dialog id="my_modal_1" className="modal">
             <div className="modal-box">
               {items.map((item) => (
-                  <div
-                    key={item.Id}
-                    className={`flex items-center p-2 ${
-                      selectedItems.includes(item.Id) ? "text-orange-500" : ""
-                    }`}
-                    onClick={() => toggleSelectedItem(item.Id)}
-                  >
-                    <img
-                      src={item.ImageUrl}
-                      alt={item.Name}
-                      style={{ height: "50px", width: "50px" }}
-                      className="rounded-[25px]"
-                    />
-                    <p className=" card-title text-[14px] text-center ml-2">
-                      {item.Name}
-                    </p>
-                  </div>
-                ))}
+                <div
+                  key={item.Id}
+                  className={`flex items-center p-2 ${
+                    selectedItems.includes(item.Id) ? "text-orange-500" : ""
+                  }`}
+                  onClick={() => toggleSelectedItem(item.Id)}
+                >
+                  <img
+                    src={item.ImageUrl}
+                    alt={item.Name}
+                    style={{ height: "50px", width: "50px" }}
+                    className="rounded-[25px]"
+                  />
+                  <p className=" card-title text-[14px] text-center ml-2">
+                    {item.Name}
+                  </p>
+                </div>
+              ))}
 
               <div className="modal-action">
                 <form method="dialog">
@@ -145,20 +135,20 @@ const PopularItem = () => {
         className="mySwiper"
       >
         {items.map((item) => (
-            <SwiperSlide key={item.Id}>
-              <div className="flex flex-col items-center">
-                <img
-                  src={item.ImageUrl}
-                  alt={item.Name}
-                  style={{ height: "250px", width: "500px" }}
-                  className="rounded-[25px]"
-                />
-                <p className="card-title text-[14px] text-center mt-2">
-                  {item.Name}
-                </p>
-              </div>
-            </SwiperSlide>
-          ))}
+          <SwiperSlide key={item.Id}>
+            <div className="flex flex-col items-center">
+              <img
+                src={item.ImageUrl}
+                alt={item.Name}
+                style={{ height: "250px", width: "500px" }}
+                className="rounded-[25px]"
+              />
+              <p className="card-title text-[14px] text-center mt-2">
+                {item.Name}
+              </p>
+            </div>
+          </SwiperSlide>
+        ))}
 
         {selectedItemsForSwiper.map((selectedItem) => (
           <SwiperSlide key={selectedItem.Id}>

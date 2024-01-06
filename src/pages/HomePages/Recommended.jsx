@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
 const Recommended = () => {
-  const [swiperRef, setSwiperRef] = useState(null);
+  const [setSwiperRef] = useState(null);
   const [items, setItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedItemsForSwiper, setSelectedItemsForSwiper] = useState([]);
-
-  const handleAddMore = async () => {
-    const response = await fetch(
-      `http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=${currentPage + 1}&pageSize=10`
-    );
-    const newItems = await response.json();
-    setItems([...items, ...newItems.Items]);
-    setCurrentPage(currentPage + 1);
-  };
 
   useEffect(() => {
     const fetchInitialItems = async () => {
@@ -43,8 +33,8 @@ const Recommended = () => {
   };
 
   const handleAddItems = () => {
-    const selectedItemsData = selectedItems.map(
-      (itemId) => items.find((item) => item.Id === itemId)
+    const selectedItemsData = selectedItems.map((itemId) =>
+      items.find((item) => item.Id === itemId)
     );
 
     setSelectedItemsForSwiper(selectedItemsData);
